@@ -1,0 +1,9 @@
+{
+  "name":"StudyWell",
+  "short_name":"StudyWell",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#f5f5f7",
+  "theme_color":"#f5f5f7",
+  "description":"Private offline-first study companion"
+}

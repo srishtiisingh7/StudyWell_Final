@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f7">
+<meta name="description" content="StudyWell — a private, offline-first study companion for your PDFs.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>StudyWell — private, offline study workspace</title>
+<meta name="application-version" content="Aceternity Rebuild v1">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">✦</span><span>StudyWell</span></div>
+    <div class="workspace-label">STUDY SPACE</div>
+    <nav id="tabs" class="side-nav" aria-label="Main navigation">
+      <div class="nav-group">
+        <div class="nav-group-label">Workspace</div>
+        <button data-tab="home" class="active"><span>⌂</span><b>Overview</b><em>⌘1</em></button>
+        <button data-tab="library"><span>▤</span><b>Library</b><em>⌘2</em></button>
+        <button data-tab="ask"><span>⌕</span><b>Ask notes</b><em>⌘3</em></button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">Study</div>
+        <button data-tab="exam"><span>◫</span><b>Exam Prep</b><em>⌘4</em></button>
+        <button data-tab="quiz"><span>✓</span><b>Practice</b><em>⌘5</em></button>
+        <button data-tab="cards"><span>◇</span><b>Flashcards</b><em>⌘6</em></button>
+        <button data-tab="focus"><span>◷</span><b>Focus</b><em>⌘7</em></button>
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <button id="collapseSidebar" class="ghost-nav"><span>‹</span><b>Collapse sidebar</b></button>
+      <button id="themeBtn" class="ghost-nav"><span>☼</span><b>Appearance</b></button>
+      <div class="privacy-note"><span class="green-dot"></span><div><b>Private by design</b><small>Your notes stay on this device.</small></div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="mobile-brand"><span class="brand-mark">✦</span> StudyWell</div>
+      <div class="topbar-right"><span class="offline-badge"><span class="green-dot"></span> Offline ready</span><button id="mobileMenu" class="icon-btn" aria-label="Open menu">☰</button></div>
+    </header>
+
+    <section id="home" class="view active">
+      <div class="welcome-row">
+        <div class="lamp-heading"><div class="lamp-glow"></div><p class="eyebrow">YOUR STUDY SPACE</p><h1>Study smarter.</h1><p class="lead">A calm, private workspace that turns your notes into something you can actually study.</p></div>
+        <button class="primary-btn" data-go="library">＋ Add notes</button>
+      </div>
+      <div id="homeStats" class="stat-grid bento-grid"></div>
+      <div class="section-head"><div><h2>Continue learning</h2><p>Pick up where you left off.</p></div><button class="text-btn" data-go="library">View library →</button></div>
+      <div id="homeDocs" class="doc-grid"></div>
+      <div class="section-head compact"><div><h2>Study tools</h2><p>Everything runs locally in your browser.</p></div></div>
+      <div class="tool-grid bento-tools">
+        <button class="tool-card" data-go="ask"><span class="tool-icon blue">⌕</span><b>Ask your notes</b><small>Find explanations and source pages.</small></button>
+        <button class="tool-card" data-go="exam"><span class="tool-icon purple">◫</span><b>Exam prep</b><small>Turn your material into revision targets.</small></button>
+        <button class="tool-card" data-go="quiz"><span class="tool-icon orange">✓</span><b>Practice</b><small>Concept, code and exam-style questions.</small></button>
+        <button class="tool-card" data-go="cards"><span class="tool-icon green">◇</span><b>Flashcards</b><small>Quick recall from your document.</small></button>
+      </div>
+    </section>
+
+    <section id="library" class="view">
+      <div class="page-heading lamp-heading"><div class="lamp-glow"></div><p class="eyebrow">YOUR MATERIAL</p><h1>Library</h1><p>Drop in a PDF and StudyWell builds a private, searchable study space from it.</p></div>
+      <label class="upload-card" id="drop" tabindex="0">
+        <input type="file" id="file" accept="application/pdf" hidden>
+        <div class="upload-icon">↑</div><div><b>Import a PDF</b><span>Click to choose or drag a file here</span></div><kbd>PDF</kbd>
+      </label>
+      <div id="status" class="status" hidden><div class="status-line"><span id="statusText">Reading…</span><span id="statusPct">0%</span></div><div class="progress-track"><i id="statusBar"></i></div></div>
+      <div class="section-head compact"><div><h2>Your documents</h2><p>Saved locally on this device.</p></div></div>
+      <div id="docs" class="doc-grid"></div>
+    </section>
+
+    <section id="ask" class="view">
+      <div class="page-heading lamp-heading"><div class="lamp-glow"></div><p class="eyebrow">ON-DEVICE SEARCH</p><h1>Ask your notes</h1><p>Ask naturally. StudyWell retrieves the most relevant passages from your PDF and explains them using only your material.</p></div>
+      <div class="ask-box"><div class="ask-symbol">⌕</div><form id="askForm"><input id="q" placeholder="e.g. Explain ripple carry adder in simple terms…" autocomplete="off"><button class="primary-btn">Ask</button></form></div>
+      <div id="suggestions" class="suggestions"></div>
+      <div id="answer"></div>
+    </section>
+
+    <section id="exam" class="view">
+      <div class="page-heading lamp-heading"><div class="lamp-glow"></div><p class="eyebrow">REVISION MODE</p><h1>Exam prep</h1><p>Study each important topic the way a good tutor would explain it: what it means, how it works, the points to remember, and how to write it in the exam.</p></div>
+      <div id="examSummary" class="exam-banner"></div>
+      <div id="examOut" class="exam-list"></div>
+    </section>
+
+    <section id="quiz" class="view">
+      <div class="page-heading lamp-heading"><div class="lamp-glow"></div><p class="eyebrow">ACTIVE RECALL</p><h1>Practice</h1><p>Questions are built from your notes — not random words. Mix concepts, code and exam-style prompts.</p></div>
+      <div id="quizSetup" class="practice-setup">
+        <div class="setup-card"><span class="setup-icon orange">✓</span><div><b>Build a fresh quiz</b><p>Choose the difficulty and question mix.</p></div></div>
+        <div class="choice-row"><button class="choice active" data-diff="mixed">Mixed</button><button class="choice" data-diff="easy">Foundation</button><button class="choice" data-diff="hard">Exam mode</button></div>
+        <button id="startQuiz" class="primary-btn wide">Start 8-question practice</button>
+      </div>
+      <div id="quizOut"></div>
+    </section>
+
+    <section id="cards" class="view">
+      <div class="page-heading lamp-heading"><div class="lamp-glow"></div><p class="eyebrow">RECALL</p><h1>Flashcards</h1><p>Flip through compact concept cards generated from definitions, headings and high-signal sentences in your notes.</p></div>
+      <div id="cardsOut"></div>
+    </section>
+
+    <section id="focus" class="view">
+      <div class="page-heading lamp-heading"><div class="lamp-glow"></div><p class="eyebrow">DEEP WORK</p><h1>Focus</h1><p>A distraction-free timer for one study block. No account, no tracking, no internet.</p></div>
+      <div class="focus-wrap"><div class="timer-ring"><div><strong id="timer">25:00</strong><span id="timerLabel">Focus session</span></div></div><div class="timer-actions"><button id="timerStart" class="primary-btn">Start</button><button id="timerReset" class="secondary-btn">Reset</button></div><div class="timer-presets"><button data-min="25" class="active">25 min</button><button data-min="45">45 min</button><button data-min="60">60 min</button></div></div>
+      <div class="focus-tips"><div><b>Before you start</b><span>Pick one topic, silence notifications, and keep your notes open.</span></div><div><b>After the session</b><span>Use Practice or Flashcards for active recall.</span></div></div>
+    </section>
+  </main>
+
+<!-- Aceternity-style Floating Dock: mobile navigation -->
+<nav class="floating-dock" aria-label="Quick navigation">
+  <button data-dock="home" aria-label="Overview"><span>⌂</span><small>Home</small></button>
+  <button data-dock="library" aria-label="Library"><span>▤</span><small>Library</small></button>
+  <button data-dock="exam" aria-label="Exam Prep"><span>◫</span><small>Exam</small></button>
+  <button data-dock="cards" aria-label="Flashcards"><span>◇</span><small>Cards</small></button>
+  <button data-dock="focus" aria-label="Focus"><span>◷</span><small>Focus</small></button>
+</nav>
+</div>
+<div id="toast" class="toast" role="status"></div>
+<script src="vendor/pdf.min.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
